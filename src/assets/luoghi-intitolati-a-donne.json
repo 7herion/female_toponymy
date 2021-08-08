@@ -1,0 +1,498 @@
+{
+    "type": "FeatureCollection",
+    "name": "LProsa1 donne",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Alice Sturiale - Giardino",
+                "DOVE-Cosa": "Giardino",
+                "ID": "03"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.190598667140451,
+                        43.76817952671875
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Reyhaneh Jabbari - Sala della Biblioteca delle Oblate",
+                "DOVE-Cosa": "Oblate sal",
+                "ID": "17"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.260140407690594,
+                        43.77258800920187
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Simone Weil - Giardino",
+                "DOVE-Cosa": "Giardino",
+                "ID": "04"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.248371470662285,
+                        43.75858686618436
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Violet Trefusis - Punto panoramico",
+                "DOVE-Cosa": "Punto pano",
+                "ID": "21"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.233155700665131,
+                        43.76399088247923
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Rossella Casini - Giardino",
+                "DOVE-Cosa": "Giardino",
+                "ID": "05"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.280269987680672,
+                        43.76538951442506
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Bianca Bianchi - Giardino",
+                "DOVE-Cosa": "Giardino",
+                "ID": "06"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.25078552439645,
+                        43.78439651716287
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Sofia De Barros e Vasconcellos Ponta - Giardino",
+                "DOVE-Cosa": "Giardino",
+                "ID": "07"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.232942561399394,
+                        43.73631695883929
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Fioretta Mazzei - Scuola materna comunale",
+                "DOVE-Cosa": "Scuola",
+                "ID": "23"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.245434235061655,
+                        43.76783703641364
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Laura Poli - Scuola statale dell'infanzia",
+                "DOVE-Cosa": "scuola",
+                "ID": "22"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.194625804435706,
+                        43.78340962741369
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Giulia Anziati - Aula di musica scuola media",
+                "DOVE-Cosa": "Aula",
+                "ID": "01"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.295218729178291,
+                        43.775173620172275
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Ernestina Paper - Sala delle Murate",
+                "DOVE-Cosa": "Murate",
+                "ID": "11"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.268221746151664,
+                        43.769258345772975
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Andreea Cristina Zamfir - Giardino",
+                "DOVE-Cosa": "Giardino",
+                "ID": "08"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.166533657257014,
+                        43.78175512677103
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Oriana Fallaci - Fermata tramvia",
+                "DOVE-Cosa": "fermata",
+                "ID": "02"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.251619082635278,
+                        43.78240840746392
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Michela Noli - Giardino",
+                "DOVE-Cosa": "Giardino",
+                "ID": "09"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.21279363148973,
+                        43.778882087634585
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Carla Lonzi -Sala della Biblioteca delle Oblate",
+                "DOVE-Cosa": "Oblate sal",
+                "ID": "18"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.260368919474168,
+                        43.77254537422025
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Violet Trefusis - Sala della Biblioteca delle Oblate",
+                "DOVE-Cosa": "Oblate sal",
+                "ID": "19"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.260635235754568,
+                        43.77245911214355
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Elisabeth Chaplin - Sala delle Murate",
+                "DOVE-Cosa": "Murate",
+                "ID": "13"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.268571594700784,
+                        43.7692085211576
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Anna Banti - Sala delle Murate",
+                "DOVE-Cosa": "Murate",
+                "ID": "12"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.26864295915958,
+                        43.76918328267137
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Gaetana La Rocca - Sala delle Murate",
+                "DOVE-Cosa": "Murate",
+                "ID": "14"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.26852074824565,
+                        43.769080894809605
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Margherita Hack - Sala delle Murate",
+                "DOVE-Cosa": "Murate",
+                "ID": "15"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.26852317778572,
+                        43.76897126781188
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Laura Orvieto - Sala delle Murate",
+                "DOVE-Cosa": "Murate",
+                "ID": "16"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.268521377816324,
+                        43.76892366061182
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Wanda Pasquini - Sala delle Murate",
+                "DOVE-Cosa": "Murate",
+                "ID": "17"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.26852317778572,
+                        43.76897126781188
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Alearmo Sibilla - Sala della Biblioteca delle Oblate",
+                "DOVE-Cosa": "Oblate sal",
+                "ID": "20"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.260434665061638,
+                        43.772293491476844
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Norma Cossetto - Giardino",
+                "DOVE-Cosa": "Giardino",
+                "ID": "10"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.302893199064451,
+                        43.75306160241094
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Marielle Franco",
+                "DOVE-Cosa": "Terrazza O",
+                "ID": null
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.260407075060884,
+                        43.772506277791024
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Tina Anselmi - Giardino",
+                "DOVE-Cosa": "Giardino",
+                "ID": null
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.283419275772975,
+                        43.76576394051203
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 0,
+                "Testo": "Fioretta Mazzei - Spazio polivalente",
+                "DOVE-Cosa": "Spazio pol",
+                "ID": "05"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.244366759914909,
+                        43.76733028416221
+                    ]
+                ]
+            }
+        }
+    ]
+}

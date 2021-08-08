@@ -1,0 +1,30 @@
+{
+    "type": "FeatureCollection",
+    "name": "LProsa1 donne_inauguranda",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "GENERE": 1,
+                "Testo": "Wanda Lattes e Alberto Nirenstein - Giardino",
+                "DOVE-Cosa": "Giardino",
+                "ID": "01"
+            },
+            "geometry": {
+                "type": "MultiPoint",
+                "coordinates": [
+                    [
+                        11.264100675949436,
+                        43.76918803747127
+                    ]
+                ]
+            }
+        }
+    ]
+}
