@@ -1,13 +1,28 @@
-import { AfterViewInit, Component } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
+import { ToponymyDataService } from '../services/toponymy-data.service';
+
+const iconRetinaUrl = './leaflet/marker-icon-2x.png';
+const iconUrl = './leaflet/marker-icon.png';
+const shadowUrl = './leaflet/marker-shadow.png';
+const iconDefault = L.icon({
+  iconRetinaUrl,
+  iconUrl,
+  shadowUrl,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41]
+});
+L.Marker.prototype.options.icon = iconDefault;
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements OnInit, AfterViewInit {
 
   private map!: L.Map;
   private streetMaps = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -16,11 +31,25 @@ export class MapComponent implements AfterViewInit {
   private corner2 = L.latLng(43.718, 11.348);
   private bounds = L.latLngBounds(this.corner1, this.corner2);
 
-  // private getDataInfo(m: L.Map) {
-  //   this.http.get('assets/toponimi-femminili.json').subscribe((json: any) => {
-  //     L.geoJSON(json).addTo(m);
-  //   });
-  // }
+  private mapLayerControl = L.control.layers();
+
+  private setLayerControl(): void {
+    this.toponymyData.getFemaleToponyms().subscribe(d => {
+      this.mapLayerControl.addOverlay(L.geoJSON(d), 'Toponimi femminili');
+
+      this.toponymyData.getFemaleToponymsToBeInaugurated().subscribe(d => {
+        this.mapLayerControl.addOverlay(L.geoJSON(d), 'Toponimi femminili da inaugurare');
+
+        this.toponymyData.getPlacesNamedAfterWomen().subscribe(d => {
+          this.mapLayerControl.addOverlay(L.geoJSON(d), 'Luoghi intitolati a donne');
+
+          this.toponymyData.getPlacesNamedAfterWomenToBeInaugurated().subscribe(d => {
+            this.mapLayerControl.addOverlay(L.geoJSON(d), 'Luoghi intitolati a donne da inaugurare');
+          });
+        });
+      });
+    });
+  }
 
   private initMap(): void {
     this.map = L.map('map', {
@@ -35,15 +64,19 @@ export class MapComponent implements AfterViewInit {
       maxZoom: 18,
     });
     this.map.setMaxBounds(this.bounds);
+    this.mapLayerControl.addTo(this.map);
+  }
+
+  ngOnInit(): void {
+    this.setLayerControl();
   }
 
   ngAfterViewInit(): void {
     this.initMap();
-    // this.getDataInfo(this.map);
   }
 
   constructor(
-    // private http: HttpClient
+    private readonly toponymyData: ToponymyDataService
   ) { }
 
 }
