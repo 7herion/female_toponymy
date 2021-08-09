@@ -126,10 +126,24 @@ export class MapComponent implements OnInit, AfterViewInit {
     //map.setMaxBounds(this.bounds);
     this.mapLayerControl.addTo(map);
 
-    navigator.geolocation.getCurrentPosition(function (location) {
-      var currentPosition = new L.LatLng(location.coords.latitude, location.coords.longitude);
+    map.locate({
+      setView: true,
+      watch: true,
+      maxZoom: 18,
+      //enableHighAccuracy: true
+    });
 
-      L.marker(currentPosition, {
+    var currentPositionMarker !: L.Marker;
+    var currentPositionCircle !: L.Circle;
+
+    function onLocationFound(e: L.LocationEvent) {
+      var radius = e.accuracy / 2;
+
+      if (currentPositionMarker && currentPositionCircle) {
+        map.removeLayer(currentPositionMarker);
+        map.removeLayer(currentPositionCircle);
+      }
+      currentPositionMarker = L.marker(e.latlng, {
         icon: new L.Icon({
           iconUrl: './assets/icons/green-icon.png',
           shadowUrl,
@@ -138,11 +152,15 @@ export class MapComponent implements OnInit, AfterViewInit {
           popupAnchor: [1, -34],
           shadowSize: [41, 41]
         }),
-      }).addTo(map).bindPopup('<b>You are here</b>').openPopup();
+      }).addTo(map).bindPopup("You are here").openPopup();
+      currentPositionCircle = L.circle(e.latlng, radius).addTo(map);
+    }
+    map.on('locationfound', onLocationFound);
 
-      map.setView(currentPosition, 16);
-      map.locate({ setView: true, watch: true, maxZoom: 16 });
-    });
+    function onLocationError(e: L.ErrorEvent) {
+      alert(e.message);
+    }
+    map.on('locationerror', onLocationError);
   }
 
   ngOnInit(): void {
