@@ -25,7 +25,6 @@ L.Marker.prototype.options.riseOnHover = true;
 })
 export class MapComponent implements OnInit, AfterViewInit {
 
-  //private map!: L.Map;
   private streetMaps = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
   private corner1 = L.latLng(43.84, 11.145);
@@ -121,7 +120,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       ],
       minZoom: 12,
       maxZoom: 18,
-    });;
+    });
 
     //map.setMaxBounds(this.bounds);
     this.mapLayerControl.addTo(map);
@@ -130,34 +129,43 @@ export class MapComponent implements OnInit, AfterViewInit {
       setView: true,
       watch: true,
       maxZoom: 18,
-      //enableHighAccuracy: true
+      enableHighAccuracy: true
     });
 
+    var greenIcon = new L.Icon({
+      iconUrl: './assets/icons/green-icon.png',
+      shadowUrl,
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
     var currentPositionMarker !: L.Marker;
     var currentPositionCircle !: L.Circle;
 
     function onLocationFound(e: L.LocationEvent) {
+      console.log("My position: ", e.latlng);
       var radius = e.accuracy / 2;
 
-      if (currentPositionMarker && currentPositionCircle) {
+      if (currentPositionMarker) {
         map.removeLayer(currentPositionMarker);
+      }
+      if (currentPositionCircle) {
         map.removeLayer(currentPositionCircle);
       }
-      currentPositionMarker = L.marker(e.latlng, {
-        icon: new L.Icon({
-          iconUrl: './assets/icons/green-icon.png',
-          shadowUrl,
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
-          popupAnchor: [1, -34],
-          shadowSize: [41, 41]
-        }),
-      }).addTo(map).bindPopup("You are here").openPopup();
+
+      currentPositionMarker = L.marker(e.latlng, { icon: greenIcon }).addTo(map).bindPopup('<b>You are here</b>');//.openPopup();
       currentPositionCircle = L.circle(e.latlng, radius).addTo(map);
+
+      // Without this function, the popup won't open on tap on mobile
+      currentPositionMarker.on('click', () => {
+        currentPositionMarker.openPopup();
+      });
     }
     map.on('locationfound', onLocationFound);
 
     function onLocationError(e: L.ErrorEvent) {
+      map.setView([43.768, 11.253], 16);
       alert(e.message);
     }
     map.on('locationerror', onLocationError);
