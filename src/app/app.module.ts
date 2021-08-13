@@ -7,11 +7,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DescriptionComponent } from './description/description.component';
+
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent
+    MapComponent,
+    DescriptionComponent
   ],
   imports: [
     BrowserModule,
@@ -19,6 +23,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LeafletModule,
     HttpClientModule,
     BrowserAnimationsModule,
+
+    // Material
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

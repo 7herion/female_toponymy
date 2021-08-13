@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import * as L from 'leaflet';
+import { DescriptionComponent } from '../description/description.component';
 import { ToponymyDataService } from '../services/toponymy-data.service';
 
 const iconRetinaUrl = './leaflet/marker-icon-2x.png';
@@ -33,52 +35,51 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   private mapLayerControl = L.control.layers(undefined, undefined, { collapsed: false });
 
-  private setLayerControl(): void {
+  private onEachFeatureClosure(matDialog: MatDialog) {
+    return function onEachFeature(featureData: any, featureLayer: L.Layer) {
+      let toponym: string = "Toponym";
+      if (featureData.properties.hasOwnProperty('TOPONIMO')) {
+        toponym = featureData.properties.TOPONIMO;
+      } else if (featureData.properties.hasOwnProperty('Testo')) {
+        toponym = featureData.properties.Testo;
+      }
+      featureLayer.bindPopup('<b>' + toponym + '</b>');
+      featureLayer.on('mouseover', function (e: L.LeafletMouseEvent) {
+        featureLayer.openPopup(e.latlng);
+      });
+      featureLayer.on('mouseout', () => {
+        featureLayer.closePopup();
+      });
+      featureLayer.on('click', () => {
+        let dialogConfig = new MatDialogConfig();
+        dialogConfig.height = "80vh";
+        dialogConfig.width = "80vw";
+        dialogConfig.maxWidth = "550px";
+        // dialogConfig.disableClose = true;
+        dialogConfig.data = toponym;
+        matDialog.open(DescriptionComponent, dialogConfig);
+      });
+    }
+  }
+
+  setLayerControl(): void {
     this.toponymyData.getFemaleToponyms().subscribe(d => {
       this.mapLayerControl.addOverlay(L.geoJSON(d,
         {
-          style: function () {
-            return { color: '#3388ff' };
-          },
-          onEachFeature: function (featureData, featureLayer) {
-            featureLayer.bindPopup('<b>' + featureData.properties.TOPONIMO + '</b>');
-            featureLayer.on('mouseover', function (e) {
-              featureLayer.openPopup();
-            });
-            featureLayer.on('mouseout', function (e) {
-              featureLayer.closePopup();
-            });
-          }
+          style: { color: '#3388ff' },
+          onEachFeature: this.onEachFeatureClosure(this.matDialog)
         }
       ), 'Toponimi femminili');
 
       this.toponymyData.getFemaleToponymsToBeInaugurated().subscribe(d => {
         this.mapLayerControl.addOverlay(L.geoJSON(d, {
-          style: function () {
-            return { color: '#ff3d61' };
-          },
-          onEachFeature: function (featureData, featureLayer) {
-            featureLayer.bindPopup('<b>' + featureData.properties.TOPONIMO + '</b>');
-            featureLayer.on('mouseover', function (e) {
-              featureLayer.openPopup();
-            });
-            featureLayer.on('mouseout', function (e) {
-              featureLayer.closePopup();
-            });
-          }
+          style: { color: '#ff3d61' },
+          onEachFeature: this.onEachFeatureClosure(this.matDialog)
         }), 'Toponimi femminili da inaugurare');
 
         this.toponymyData.getPlacesNamedAfterWomen().subscribe(d => {
           this.mapLayerControl.addOverlay(L.geoJSON(d, {
-            onEachFeature: function (featureData, featureLayer) {
-              featureLayer.bindPopup('<b>' + featureData.properties.Testo + '</b>');
-              featureLayer.on('mouseover', function (e) {
-                featureLayer.openPopup();
-              });
-              featureLayer.on('mouseout', function (e) {
-                featureLayer.closePopup();
-              });
-            }
+            onEachFeature: this.onEachFeatureClosure(this.matDialog)
           }), 'Luoghi intitolati a donne');
 
           this.toponymyData.getPlacesNamedAfterWomenToBeInaugurated().subscribe(d => {
@@ -95,15 +96,7 @@ export class MapComponent implements OnInit, AfterViewInit {
                   }),
                 });
               },
-              onEachFeature: function (featureData, featureLayer) {
-                featureLayer.bindPopup('<b>' + featureData.properties.Testo + '</b>');
-                featureLayer.on('mouseover', function (e) {
-                  featureLayer.openPopup();
-                });
-                featureLayer.on('mouseout', function (e) {
-                  featureLayer.closePopup();
-                });
-              }
+              onEachFeature: this.onEachFeatureClosure(this.matDialog)
             }), 'Luoghi intitolati a donne da inaugurare');
           });
         });
@@ -122,7 +115,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       maxZoom: 18,
     });
 
-    //map.setMaxBounds(this.bounds);
+    map.setMaxBounds(this.bounds);
     this.mapLayerControl.addTo(map);
 
     map.locate({
@@ -140,11 +133,10 @@ export class MapComponent implements OnInit, AfterViewInit {
       popupAnchor: [1, -34],
       shadowSize: [41, 41]
     });
-    var currentPositionMarker !: L.Marker;
-    var currentPositionCircle !: L.Circle;
+    var currentPositionMarker!: L.Marker;
+    var currentPositionCircle!: L.Circle;
 
     function onLocationFound(e: L.LocationEvent) {
-      console.log("My position: ", e.latlng);
       var radius = e.accuracy / 2;
 
       if (currentPositionMarker) {
@@ -156,11 +148,6 @@ export class MapComponent implements OnInit, AfterViewInit {
 
       currentPositionMarker = L.marker(e.latlng, { icon: greenIcon }).addTo(map).bindPopup('<b>You are here</b>');//.openPopup();
       currentPositionCircle = L.circle(e.latlng, radius).addTo(map);
-
-      // Without this function, the popup won't open on tap on mobile
-      currentPositionMarker.on('click', () => {
-        currentPositionMarker.openPopup();
-      });
     }
     map.on('locationfound', onLocationFound);
 
@@ -180,7 +167,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   constructor(
-    private readonly toponymyData: ToponymyDataService
+    private readonly toponymyData: ToponymyDataService,
+    private readonly matDialog: MatDialog,
   ) { }
 
 }
