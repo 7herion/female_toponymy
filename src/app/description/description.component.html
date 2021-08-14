@@ -1,3 +1,5 @@
-{{data}}
-
-<!-- <button (click)="closeAll()">Close</button> -->
+<h1>{{ name }}</h1>
+<hr>
+<p *ngIf="dataFound">Source: Wikipedia</p>
+<br>
+<div class="wikipediaText" [innerHTML]="descr"></div>
