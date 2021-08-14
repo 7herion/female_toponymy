@@ -53,8 +53,8 @@ export class MapComponent implements OnInit, AfterViewInit {
       featureLayer.on('click', () => {
         let dialogConfig = new MatDialogConfig();
         dialogConfig.height = "80vh";
-        dialogConfig.width = "80vw";
-        dialogConfig.maxWidth = "550px";
+        dialogConfig.width = "95vw";
+        dialogConfig.maxWidth = "650px";
         // dialogConfig.disableClose = true;
         dialogConfig.data = toponym;
         matDialog.open(DescriptionComponent, dialogConfig);

@@ -12,7 +12,20 @@ export class ToponymNameService {
 
     if (data.indexOf('-') != -1) {
       data = data.slice(0, (data.indexOf('-') - 1));
+
+      if (data.indexOf(' e ') != -1) {
+        data = data.slice(0, data.indexOf(' e '));
+      }
+
+    } else {
+      data = data.substring(data.indexOf(" ") + 1);
+
+      let re = new RegExp('^[a-z].* ');
+      if (re.test(data)) {
+        data = data.substring(data.indexOf(" ") + 1);
+      }
     }
+
     return data;
   }
 }
