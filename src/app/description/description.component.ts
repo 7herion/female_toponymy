@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToponymNameService } from '../services/toponym-name.service';
 import { WikipediaQueryService } from '../services/wikipedia-query.service';
 
@@ -17,7 +17,6 @@ export class DescriptionComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private readonly data: string,
-    // private readonly matDialog: MatDialog,
     private readonly toponymName: ToponymNameService,
     private readonly wikiQuery: WikipediaQueryService,
   ) { }
@@ -31,7 +30,7 @@ export class DescriptionComponent implements OnInit {
         this.descr = res.query.pages[pageNr].extract;
         this.dataFound = true;
       } else {
-        this.descr = '404 not found';
+        this.descr = '<i>Nessun dato trovato su Wikipedia.</i>';
       }
     });
   }
