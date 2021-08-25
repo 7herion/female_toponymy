@@ -8,14 +8,18 @@ import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DescriptionComponent } from './description/description.component';
+import { DistanceSliderComponent } from './distance-slider/distance-slider.component';
 
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
-    DescriptionComponent
+    DescriptionComponent,
+    DistanceSliderComponent
   ],
   imports: [
     BrowserModule,
@@ -26,6 +30,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 
     // Material
     MatDialogModule,
+    MatSliderModule,
+    MatTooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

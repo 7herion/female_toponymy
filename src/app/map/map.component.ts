@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSliderChange } from '@angular/material/slider';
 import * as L from 'leaflet';
 import { DescriptionComponent } from '../description/description.component';
 import { ToponymyDataService } from '../services/toponymy-data.service';
@@ -35,6 +36,12 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   private mapLayerControl = L.control.layers(undefined, undefined, { collapsed: false });
 
+  private selectedDistance: number = 50;
+
+  public onSliderChange(slider: MatSliderChange): void {
+    this.selectedDistance = slider.value ? slider.value : 0;
+  }
+
   private onEachFeatureClosure(matDialog: MatDialog) {
     let dialogConfig = new MatDialogConfig();
     dialogConfig.height = "80vh";
@@ -49,13 +56,13 @@ export class MapComponent implements OnInit, AfterViewInit {
         toponym = featureData.properties.Testo;
       }
       featureLayer.bindPopup('<b>' + toponym + '</b>');
-      featureLayer.on('mouseover', function (e: L.LeafletMouseEvent) {
+      featureLayer.on('mouseover', (e: L.LeafletMouseEvent) => {
         featureLayer.openPopup(e.latlng);
       });
       featureLayer.on('mouseout', () => {
         featureLayer.closePopup();
       });
-      featureLayer.on('click', function () {
+      featureLayer.on('click', () => {
         dialogConfig.data = toponym;
         if (matDialog.openDialogs.length == 0) {
           matDialog.open(DescriptionComponent, dialogConfig);
@@ -64,7 +71,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setLayerControl(): void {
+  private setLayerControl(): void {
     this.toponymyData.getFemaleToponyms().subscribe(d => {
       this.mapLayerControl.addOverlay(L.geoJSON(d,
         {
@@ -137,9 +144,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     });
     var currentPositionMarker!: L.Marker;
     var currentPositionCircle!: L.Circle;
-    var maxDistanceFromUser: number = 2500;
 
-    function openNearestDialog(e: L.LocationEvent) {
+    function openNearestDialog(e: L.LocationEvent, d: number) {
       let markerDistances: Array<number> = [];
       let polygonDistances: Array<number> = [];
       let selectedLayer: boolean = false;
@@ -155,13 +161,13 @@ export class MapComponent implements OnInit, AfterViewInit {
                 if (coord instanceof Array) {
                   coord.forEach((c) => {
                     distance = e.latlng.distanceTo(c);
-                    if (distance < maxDistanceFromUser) {
+                    if (distance < d) {
                       nearerPoints.push(distance);
                     }
                   });
                 } else {
                   distance = e.latlng.distanceTo(coord);
-                  if (distance < maxDistanceFromUser) {
+                  if (distance < d) {
                     nearerPoints.push(distance);
                   }
                 }
@@ -177,7 +183,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
         else if (l instanceof L.Marker) {
           let distanceFromUser: number = e.latlng.distanceTo(l.getLatLng());
-          if (distanceFromUser < maxDistanceFromUser && distanceFromUser != 0) {
+          if (distanceFromUser < d && distanceFromUser != 0) {
             markerDistances.push(Math.round(distanceFromUser * 100) / 100);
           }
         }
@@ -206,21 +212,23 @@ export class MapComponent implements OnInit, AfterViewInit {
       });
     }
 
-    function onLocationFound(e: L.LocationEvent) {
-      var radius = e.accuracy / 2;
+    function onLocationFoundClosure(d: number) {
+      return function onLocationFound(e: L.LocationEvent) {
+        var radius = e.accuracy / 2;
 
-      if (currentPositionMarker) {
-        map.removeLayer(currentPositionMarker);
-      }
-      if (currentPositionCircle) {
-        map.removeLayer(currentPositionCircle);
-      }
+        if (currentPositionMarker) {
+          map.removeLayer(currentPositionMarker);
+        }
+        if (currentPositionCircle) {
+          map.removeLayer(currentPositionCircle);
+        }
 
-      currentPositionMarker = L.marker(e.latlng, { icon: greenIcon }).addTo(map).bindPopup('<b>You are here</b>');//.openPopup();
-      currentPositionCircle = L.circle(e.latlng, radius).addTo(map);
-      openNearestDialog(e);
+        currentPositionMarker = L.marker(e.latlng, { icon: greenIcon }).addTo(map).bindPopup('<b>You are here</b>');//.openPopup();
+        currentPositionCircle = L.circle(e.latlng, radius).addTo(map);
+        openNearestDialog(e, d);
+      }
     }
-    map.on('locationfound', onLocationFound);
+    map.on('locationfound', onLocationFoundClosure(this.selectedDistance));
 
     function onLocationError(e: L.ErrorEvent) {
       map.setView([43.768, 11.253], 16);
