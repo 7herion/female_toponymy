@@ -36,10 +36,12 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   private mapLayerControl = L.control.layers(undefined, undefined, { collapsed: false });
 
-  private selectedDistance: number = 50;
-
-  public onSliderChange(slider: MatSliderChange): void {
-    this.selectedDistance = slider.value ? slider.value : 0;
+  private sliderData: Array<number> = [50, 0];
+  public geolocationActive(): boolean {
+    return (this.sliderData[1] === -1) ? false : true;
+  };
+  public onSliderChange(e: MatSliderChange): void {
+    this.sliderData[0] = e.value ? e.value : 0;
   }
 
   private onEachFeatureClosure(matDialog: MatDialog) {
@@ -131,7 +133,8 @@ export class MapComponent implements OnInit, AfterViewInit {
       setView: true,
       watch: true,
       maxZoom: 18,
-      enableHighAccuracy: true
+      enableHighAccuracy: true,
+      maximumAge: 200,
     });
 
     var greenIcon = new L.Icon({
@@ -150,6 +153,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       let polygonDistances: Array<number> = [];
       let selectedLayer: boolean = false;
       let nearerPolygons: Array<L.Polygon> = [];
+      let nearest: string = "None";
 
       map.eachLayer((l) => {
         if (l instanceof L.Polygon) {
@@ -174,9 +178,8 @@ export class MapComponent implements OnInit, AfterViewInit {
               });
             }
           });
-          nearerPoints = nearerPoints.sort();
           if (nearerPoints.length > 0) {
-            polygonDistances.push(Math.round(nearerPoints[0] * 100) / 100);
+            polygonDistances.push(Math.round(Math.min(...nearerPoints) * 100) / 100);
             nearerPolygons.push(l);
           }
         }
@@ -190,51 +193,71 @@ export class MapComponent implements OnInit, AfterViewInit {
       });
 
       if (nearerPolygons.length > 0) {
+        if (markerDistances.length > 0) {
+          if (Math.min(...polygonDistances) < Math.min(...markerDistances)) {
+            nearest = "Polygon";
+          } else {
+            nearest = "Marker";
+          }
+        } else {
+          nearest = "Polygon";
+        }
+      } else if (markerDistances.length > 0) {
+        nearest = "Marker";
+      }
+
+      if (nearest === "Polygon") {
         nearerPolygons[polygonDistances.indexOf(Math.min(...polygonDistances))].fire('click');
         return;
       }
 
-      markerDistances = markerDistances.sort();
-
-      map.eachLayer((l) => {
-        if (l.hasEventListeners('click') && selectedLayer) {
-          selectedLayer = false;
-          if (l instanceof L.Layer) {
-            l.fire('click');
-            return;
+      if (nearest === "Marker") {
+        map.eachLayer((l) => {
+          if (l.hasEventListeners('click') && selectedLayer) {
+            selectedLayer = false;
+            if (l instanceof L.Layer) {
+              l.fire('click');
+              return;
+            }
           }
-        }
-        if (l instanceof L.Marker) {
-          if (Math.round(e.latlng.distanceTo(l.getLatLng()) * 100) / 100 === markerDistances[0]) {
-            selectedLayer = true;
+          if (l instanceof L.Marker) {
+            if (Math.round(e.latlng.distanceTo(l.getLatLng()) * 100) / 100 === Math.min(...markerDistances)) {
+              selectedLayer = true;
+            }
           }
-        }
-      });
+        });
+      }
     }
 
-    function onLocationFoundClosure(d: number) {
+    function onLocationFoundClosure(d: Array<number>) {
       return function onLocationFound(e: L.LocationEvent) {
         var radius = e.accuracy / 2;
 
-        if (currentPositionMarker) {
-          map.removeLayer(currentPositionMarker);
+        if (!currentPositionMarker) {
+          currentPositionMarker = L.marker(e.latlng, { icon: greenIcon }).addTo(map).bindPopup('<b>You are here</b>');
         }
-        if (currentPositionCircle) {
-          map.removeLayer(currentPositionCircle);
+        if (!currentPositionCircle) {
+          currentPositionCircle = L.circle(e.latlng, radius).addTo(map);
         }
+        currentPositionMarker.setLatLng(e.latlng);
+        currentPositionCircle.setLatLng(e.latlng);
 
-        currentPositionMarker = L.marker(e.latlng, { icon: greenIcon }).addTo(map).bindPopup('<b>You are here</b>');//.openPopup();
-        currentPositionCircle = L.circle(e.latlng, radius).addTo(map);
-        openNearestDialog(e, d);
+        if (d[0] > 0) {
+          openNearestDialog(e, d[0]);
+        }
+        d[1] = 0;
       }
     }
-    map.on('locationfound', onLocationFoundClosure(this.selectedDistance));
+    map.on('locationfound', onLocationFoundClosure(this.sliderData));
 
-    function onLocationError(e: L.ErrorEvent) {
-      map.setView([43.768, 11.253], 16);
-      alert(e.message);
+    function onLocationErrorClosure(d: Array<number>) {
+      return function onLocationError(e: L.ErrorEvent) {
+        map.setView([43.768, 11.253], 16);
+        alert(e.message);
+        d[1] = -1;
+      }
     }
-    map.on('locationerror', onLocationError);
+    map.on('locationerror', onLocationErrorClosure(this.sliderData));
   }
 
   ngOnInit(): void {
