@@ -80,18 +80,18 @@ export class MapComponent implements OnInit, AfterViewInit {
           style: { color: '#3388ff' },
           onEachFeature: this.onEachFeatureClosure(this.matDialog)
         }
-      ), 'Toponimi femminili');
+      ), '<img src="./assets/icons/mini-blue-rect.png"> Toponimi femminili');
 
       this.toponymyData.getFemaleToponymsToBeInaugurated().subscribe(d => {
         this.mapLayerControl.addOverlay(L.geoJSON(d, {
           style: { color: '#ff3d61' },
           onEachFeature: this.onEachFeatureClosure(this.matDialog)
-        }), 'Toponimi femminili da inaugurare');
+        }), '<img src="./assets/icons/mini-red-rect.png"> Toponimi femminili da inaugurare');
 
         this.toponymyData.getPlacesNamedAfterWomen().subscribe(d => {
           this.mapLayerControl.addOverlay(L.geoJSON(d, {
             onEachFeature: this.onEachFeatureClosure(this.matDialog)
-          }), 'Luoghi intitolati a donne');
+          }), '<img src="./assets/icons/mini-blue-icon.png"> Luoghi intitolati a donne');
 
           this.toponymyData.getPlacesNamedAfterWomenToBeInaugurated().subscribe(d => {
             this.mapLayerControl.addOverlay(L.geoJSON(d, {
@@ -108,7 +108,7 @@ export class MapComponent implements OnInit, AfterViewInit {
                 });
               },
               onEachFeature: this.onEachFeatureClosure(this.matDialog)
-            }), 'Luoghi intitolati a donne da inaugurare');
+            }), '<img src="./assets/icons/mini-red-icon.png"> Luoghi intitolati a donne da inaugurare');
           });
         });
       });
