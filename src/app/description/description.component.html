@@ -1,5 +1,9 @@
 <h1>{{ name }}</h1>
 <hr>
 <p *ngIf="dataFound"><i>Source: Wikipedia</i></p>
+<br *ngIf="imageFound">
+<div class="wikipediaImage" *ngIf="imageFound">
+    <img src='{{ imageSource }}'>
+</div>
 <br>
 <div class="wikipediaText" [innerHTML]="descr"></div>
