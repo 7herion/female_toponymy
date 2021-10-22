@@ -23,7 +23,7 @@ export class DescriptionComponent implements OnInit {
     private readonly wikiQuery: WikipediaQueryService,
   ) { }
 
-  getData(data: string) {
+  public getData(data: string): void {
     this.name = this.toponymName.extract(data);
 
     this.wikiQuery.getInfo(this.name).subscribe(res => {

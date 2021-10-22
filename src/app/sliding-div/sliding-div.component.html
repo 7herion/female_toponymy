@@ -1,6 +1,6 @@
 <div class="open-close-container" [@openClose]="checkState()">
-    <div class="icon-container" *ngIf="isOpenFullScreen">
-        <mat-icon (click)="close()">expand_more</mat-icon>
+    <div class="icon-container">
+        <mat-icon *ngIf="isOpenFullScreen" (click)="close()">expand_more</mat-icon>
     </div>
     <div class="sliding-div-content" (touchstart)="touchStart($event)" (touchmove)="swipeEvent($event)">
         <app-description></app-description>

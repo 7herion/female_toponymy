@@ -48,13 +48,19 @@ import { DescriptionComponent } from '../description/description.component';
 export class SlidingDivComponent implements OnInit {
   @ViewChild(DescriptionComponent) content!: DescriptionComponent;
 
-  isOpen: boolean = false;
-  isOpenFullScreen: boolean = false;
-  touchStartYCoord!: number;
+  public isOpen: boolean = false;
+  public canBeClosed: boolean = false;
+  public isOpenFullScreen: boolean = false;
+  private touchStartYCoord!: number;
 
   public open(s: string) {
+    this.canBeClosed = false;
     this.isOpen = true;
     this.content.getData(s);
+
+    setTimeout(() => {
+      this.canBeClosed = true;
+    }, 250);
   }
 
   public close() {
@@ -74,7 +80,6 @@ export class SlidingDivComponent implements OnInit {
   }
 
   public swipeEvent(e: TouchEvent) {
-    console.log(e);
     if (e.changedTouches[0].clientY < this.touchStartYCoord) {
       this.openFullView();
     } else if (!this.isOpenFullScreen) {

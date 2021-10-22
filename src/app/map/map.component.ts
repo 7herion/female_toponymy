@@ -62,9 +62,9 @@ export class MapComponent implements OnInit, AfterViewInit {
       // featureLayer.on('mouseover', (e: L.LeafletMouseEvent) => {
       //   slidingDiv.open(toponym);
       // });
-      featureLayer.on('mouseout', () => {
-        slidingDiv.close();
-      });
+      // featureLayer.on('mouseout', (e: L.LeafletMouseEvent) => {
+      //   slidingDiv.close();
+      // });
       featureLayer.on('click', () => {
         dialogConfig.data = toponym;
         // if (matDialog.openDialogs.length == 0) {
@@ -260,6 +260,12 @@ export class MapComponent implements OnInit, AfterViewInit {
       }
     }
     map.on('locationerror', onLocationErrorClosure(this.sliderData));
+
+    map.on('click', (e: L.LeafletMouseEvent) => {
+      if (this.slidingDiv.canBeClosed) {
+        this.slidingDiv.close();
+      }
+    });
   }
 
   ngOnInit(): void {
