@@ -1,0 +1,19 @@
+.open-close-container {
+    margin-top: 1em;
+    color: #000000;
+    font-size: 15px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 5;
+}
+
+.icon-container{
+    display: flex;
+    justify-content: center;
+    padding: 8px 8px 0px 8px;
+}
+
+.sliding-div-content{
+    padding: 30px 35px;
+}

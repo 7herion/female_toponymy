@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToponymNameService } from '../services/toponym-name.service';
 import { WikipediaQueryService } from '../services/wikipedia-query.service';
@@ -15,16 +15,16 @@ export class DescriptionComponent implements OnInit {
   public imageFound: boolean = false;
 
   public descr!: string;
-  public imageSource: string = '';
+  public imageSource!: string;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private readonly data: string,
+    @Optional() @Inject(MAT_DIALOG_DATA) private readonly data: string,
     private readonly toponymName: ToponymNameService,
     private readonly wikiQuery: WikipediaQueryService,
   ) { }
 
-  ngOnInit(): void {
-    this.name = this.toponymName.extract(this.data)
+  getData(data: string) {
+    this.name = this.toponymName.extract(data);
 
     this.wikiQuery.getInfo(this.name).subscribe(res => {
       let pageNr = +Object.getOwnPropertyNames(res.query.pages)[0];
@@ -33,6 +33,7 @@ export class DescriptionComponent implements OnInit {
         this.dataFound = true;
       } else {
         this.descr = '<i>Nessun dato trovato su Wikipedia.</i>';
+        this.dataFound = false;
       }
     });
 
@@ -41,8 +42,17 @@ export class DescriptionComponent implements OnInit {
       if (pageNr != -1 && res.query.pages[pageNr].original) {
         this.imageSource = res.query.pages[pageNr].original.source;
         this.imageFound = true;
+      } else {
+        this.imageSource = '';
+        this.imageFound = false;
       }
     });
+  }
+
+  ngOnInit(): void {
+    if (this.data) {
+      this.getData(this.data);
+    }
   }
 
 }

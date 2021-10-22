@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSliderChange } from '@angular/material/slider';
 import * as L from 'leaflet';
 import { DescriptionComponent } from '../description/description.component';
 import { ToponymyDataService } from '../services/toponymy-data.service';
+import { SlidingDivComponent } from '../sliding-div/sliding-div.component';
 
 const iconRetinaUrl = './leaflet/marker-icon-2x.png';
 const iconUrl = './leaflet/marker-icon.png';
@@ -27,6 +28,7 @@ L.Marker.prototype.options.riseOnHover = true;
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit, AfterViewInit {
+  @ViewChild(SlidingDivComponent) slidingDiv: SlidingDivComponent = new SlidingDivComponent();
 
   private streetMaps = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
@@ -44,7 +46,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.sliderData[0] = e.value ? e.value : 0;
   }
 
-  private onEachFeatureClosure(matDialog: MatDialog) {
+  private onEachFeatureClosure(matDialog: MatDialog, slidingDiv: SlidingDivComponent) {
     let dialogConfig = new MatDialogConfig();
     dialogConfig.height = "80vh";
     dialogConfig.width = "95vw";
@@ -57,18 +59,18 @@ export class MapComponent implements OnInit, AfterViewInit {
       } else if (featureData.properties.hasOwnProperty('Testo')) {
         toponym = featureData.properties.Testo;
       }
-      featureLayer.bindPopup('<b>' + toponym + '</b>');
-      featureLayer.on('mouseover', (e: L.LeafletMouseEvent) => {
-        featureLayer.openPopup(e.latlng);
-      });
+      // featureLayer.on('mouseover', (e: L.LeafletMouseEvent) => {
+      //   slidingDiv.open(toponym);
+      // });
       featureLayer.on('mouseout', () => {
-        featureLayer.closePopup();
+        slidingDiv.close();
       });
       featureLayer.on('click', () => {
         dialogConfig.data = toponym;
-        if (matDialog.openDialogs.length == 0) {
-          matDialog.open(DescriptionComponent, dialogConfig);
-        }
+        // if (matDialog.openDialogs.length == 0) {
+        //   matDialog.open(DescriptionComponent, dialogConfig);
+        // }
+        slidingDiv.open(toponym);
       });
     }
   }
@@ -78,19 +80,19 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.mapLayerControl.addOverlay(L.geoJSON(d,
         {
           style: { color: '#3388ff' },
-          onEachFeature: this.onEachFeatureClosure(this.matDialog)
+          onEachFeature: this.onEachFeatureClosure(this.matDialog, this.slidingDiv)
         }
       ), '<img src="./assets/icons/mini-blue-rect.png"> Toponimi femminili');
 
       this.toponymyData.getFemaleToponymsToBeInaugurated().subscribe(d => {
         this.mapLayerControl.addOverlay(L.geoJSON(d, {
           style: { color: '#ff3d61' },
-          onEachFeature: this.onEachFeatureClosure(this.matDialog)
+          onEachFeature: this.onEachFeatureClosure(this.matDialog, this.slidingDiv)
         }), '<img src="./assets/icons/mini-red-rect.png"> Toponimi femminili da inaugurare');
 
         this.toponymyData.getPlacesNamedAfterWomen().subscribe(d => {
           this.mapLayerControl.addOverlay(L.geoJSON(d, {
-            onEachFeature: this.onEachFeatureClosure(this.matDialog)
+            onEachFeature: this.onEachFeatureClosure(this.matDialog, this.slidingDiv)
           }), '<img src="./assets/icons/mini-blue-icon.png"> Luoghi intitolati a donne');
 
           this.toponymyData.getPlacesNamedAfterWomenToBeInaugurated().subscribe(d => {
@@ -107,7 +109,7 @@ export class MapComponent implements OnInit, AfterViewInit {
                   }),
                 });
               },
-              onEachFeature: this.onEachFeatureClosure(this.matDialog)
+              onEachFeature: this.onEachFeatureClosure(this.matDialog, this.slidingDiv)
             }), '<img src="./assets/icons/mini-red-icon.png"> Luoghi intitolati a donne da inaugurare');
           });
         });

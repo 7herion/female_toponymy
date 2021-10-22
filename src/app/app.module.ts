@@ -13,13 +13,16 @@ import { DistanceSliderComponent } from './distance-slider/distance-slider.compo
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SlidingDivComponent } from './sliding-div/sliding-div.component';
+import { MatIconModule } from '@angular/material/icon'
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
     DescriptionComponent,
-    DistanceSliderComponent
+    DistanceSliderComponent,
+    SlidingDivComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +35,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatDialogModule,
     MatSliderModule,
     MatTooltipModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
