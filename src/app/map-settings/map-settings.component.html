@@ -1,0 +1,10 @@
+<div class="setting-page-container">
+    Selezionando il punto di interesse:<br><br>
+
+    <mat-radio-group class="radio-group" [(ngModel)]='radioValue'>
+        <mat-radio-button value='0' [checked]='radioValue === 0'>Apri sliding div</mat-radio-button>
+        <mat-radio-button value='1' [checked]='radioValue === 1'>Apri finestra modale</mat-radio-button>
+    </mat-radio-group><br>
+
+    <div (click)="saveData()" routerLink="/">Salva/torna alla mappa</div>
+</div>

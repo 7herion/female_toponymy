@@ -9,9 +9,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .mat-slider-thumb-label {
     background-color: grey !important;
-
 }
 
 .mat-slider-thumb {
     background-color: grey !important;
+}
+
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color: grey !important;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: grey !important;
+}
+    
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: grey !important;
 }

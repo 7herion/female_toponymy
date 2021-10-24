@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSliderChange } from '@angular/material/slider';
+import { Router } from '@angular/router';
 import * as L from 'leaflet';
-import { DescriptionComponent } from '../description/description.component';
+import { InfoDivService } from '../services/info-div.service';
 import { ToponymyDataService } from '../services/toponymy-data.service';
 import { SlidingDivComponent } from '../sliding-div/sliding-div.component';
 
@@ -46,12 +46,12 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.sliderData[0] = e.value ? e.value : 0;
   }
 
-  private onEachFeatureClosure(matDialog: MatDialog, slidingDiv: SlidingDivComponent) {
-    let dialogConfig = new MatDialogConfig();
-    dialogConfig.height = "80vh";
-    dialogConfig.width = "95vw";
-    dialogConfig.maxWidth = "650px";
-    // dialogConfig.disableClose = true;
+  public openSettings() {
+    this.router.navigateByUrl('/settings');
+    this.info.close();
+  }
+
+  private onEachFeatureClosure(info: InfoDivService) {
     return function onEachFeature(featureData: any, featureLayer: L.Layer) {
       let toponym: string = "Toponym";
       if (featureData.properties.hasOwnProperty('TOPONIMO')) {
@@ -66,11 +66,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       //   slidingDiv.close();
       // });
       featureLayer.on('click', () => {
-        dialogConfig.data = toponym;
-        // if (matDialog.openDialogs.length == 0) {
-        //   matDialog.open(DescriptionComponent, dialogConfig);
-        // }
-        slidingDiv.open(toponym);
+        info.openTab(toponym);
       });
     }
   }
@@ -80,19 +76,19 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.mapLayerControl.addOverlay(L.geoJSON(d,
         {
           style: { color: '#3388ff' },
-          onEachFeature: this.onEachFeatureClosure(this.matDialog, this.slidingDiv)
+          onEachFeature: this.onEachFeatureClosure(this.info)
         }
       ), '<img src="./assets/icons/mini-blue-rect.png"> Toponimi femminili');
 
       this.toponymyData.getFemaleToponymsToBeInaugurated().subscribe(d => {
         this.mapLayerControl.addOverlay(L.geoJSON(d, {
           style: { color: '#ff3d61' },
-          onEachFeature: this.onEachFeatureClosure(this.matDialog, this.slidingDiv)
+          onEachFeature: this.onEachFeatureClosure(this.info)
         }), '<img src="./assets/icons/mini-red-rect.png"> Toponimi femminili da inaugurare');
 
         this.toponymyData.getPlacesNamedAfterWomen().subscribe(d => {
           this.mapLayerControl.addOverlay(L.geoJSON(d, {
-            onEachFeature: this.onEachFeatureClosure(this.matDialog, this.slidingDiv)
+            onEachFeature: this.onEachFeatureClosure(this.info)
           }), '<img src="./assets/icons/mini-blue-icon.png"> Luoghi intitolati a donne');
 
           this.toponymyData.getPlacesNamedAfterWomenToBeInaugurated().subscribe(d => {
@@ -109,7 +105,7 @@ export class MapComponent implements OnInit, AfterViewInit {
                   }),
                 });
               },
-              onEachFeature: this.onEachFeatureClosure(this.matDialog, this.slidingDiv)
+              onEachFeature: this.onEachFeatureClosure(this.info)
             }), '<img src="./assets/icons/mini-red-icon.png"> Luoghi intitolati a donne da inaugurare');
           });
         });
@@ -262,8 +258,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     map.on('locationerror', onLocationErrorClosure(this.sliderData));
 
     map.on('click', (e: L.LeafletMouseEvent) => {
-      if (this.slidingDiv.canBeClosed) {
-        this.slidingDiv.close();
+      if (this.info.canBeClosed) {
+        this.info.close();
       }
     });
   }
@@ -274,11 +270,13 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initMap();
+    this.info.setSlidingDiv(this.slidingDiv);
   }
 
   constructor(
     private readonly toponymyData: ToponymyDataService,
-    private readonly matDialog: MatDialog,
+    private readonly router: Router,
+    private readonly info: InfoDivService,
   ) { }
 
 }

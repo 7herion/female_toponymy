@@ -14,7 +14,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SlidingDivComponent } from './sliding-div/sliding-div.component';
-import { MatIconModule } from '@angular/material/icon'
+import { MatIconModule } from '@angular/material/icon';
+import { MapSettingsComponent } from './map-settings/map-settings.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,8 @@ import { MatIconModule } from '@angular/material/icon'
     MapComponent,
     DescriptionComponent,
     DistanceSliderComponent,
-    SlidingDivComponent
+    SlidingDivComponent,
+    MapSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -30,12 +34,14 @@ import { MatIconModule } from '@angular/material/icon'
     LeafletModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FormsModule,
 
     // Material
     MatDialogModule,
     MatSliderModule,
     MatTooltipModule,
     MatIconModule,
+    MatRadioModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

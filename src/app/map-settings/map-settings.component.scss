@@ -1,0 +1,15 @@
+.setting-page-container {
+    position: absolute;
+    z-index: 500;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: #ffffff, $alpha: 0.92);
+    color: #3a3a3a;
+    font-size: 15px;
+    padding: 20px;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+}

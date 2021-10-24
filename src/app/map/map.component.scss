@@ -17,6 +17,31 @@
     height: 100%;
   }
 
+  .icon-container {
+    border: 2px solid rgba(0,0,0,0.2);    
+    border-radius: 4px;
+    background-clip: padding-box;
+    background-color: white;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 75px;
+    left: 0px;
+    margin-top: 10px;
+    margin-left: 10px;
+    z-index: 400;
+  }
+  .icon-container:hover {
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #f4f4f4;
+  }
+
+  .settings-icon {
+    padding: 3px;
+    color: rgb(78, 78, 78);
+  }
+
   .slider-container {
     position: absolute;
     right: 0;

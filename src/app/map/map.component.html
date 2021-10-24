@@ -2,6 +2,9 @@
     <div class="map-frame">
         <div id="map"></div>
     </div>
+    <div class="icon-container" (click)="openSettings()">
+        <mat-icon class="settings-icon">settings</mat-icon>
+    </div>
 </div>
 
 <div *ngIf="geolocationActive()" class="slider-container">
