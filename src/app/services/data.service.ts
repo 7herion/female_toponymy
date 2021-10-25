@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class DataService {
 
-  private radioValue!: number;
+  private radioValue: number;
 
   public getRadioValue(): number {
     return this.radioValue;
@@ -15,5 +15,7 @@ export class DataService {
     this.radioValue = v;
   }
 
-  constructor() { }
+  constructor() {
+    this.radioValue = 0;
+  }
 }
