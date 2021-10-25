@@ -1,10 +1,18 @@
 <div class="setting-page-container">
-    Selezionando il punto di interesse:<br><br>
+    <div class="icon-container" routerLink="/">
+        <mat-icon class="arrow-back-icon">arrow_back</mat-icon>
+    </div>
+    <div class="setting-page">
+        <b>Selezionando il punto di interesse:</b><br><br>
 
-    <mat-radio-group class="radio-group" [(ngModel)]='radioValue'>
-        <mat-radio-button [value]='0'>Apri sliding div</mat-radio-button>
-        <mat-radio-button [value]='1'>Apri finestra modale</mat-radio-button>
-    </mat-radio-group><br>
+        <mat-radio-group class="radio-group" [(ngModel)]='radioValue'>
+            <mat-radio-button class="radio-button" [value]='0'>Apri sliding div</mat-radio-button>
+            <mat-radio-button class="radio-button" [value]='1'>Apri finestra modale</mat-radio-button>
+        </mat-radio-group><br><br>
 
-    <div (click)="saveData()" routerLink="/">Salva/torna alla mappa</div>
+        <div class="save-and-back" (click)="saveData()" routerLink="/">
+            <mat-icon class="done-icon">done</mat-icon>
+            <div>Salva e torna alla mappa</div>
+        </div>
+    </div>
 </div>
