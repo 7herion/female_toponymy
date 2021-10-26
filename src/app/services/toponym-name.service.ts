@@ -7,6 +7,16 @@ export class ToponymNameService {
 
   constructor() { }
 
+  /**
+   * Extracts the person name from the string.
+   * It does nothing if there is only one white space in the input string.
+   * If there are two names with an 'e' character between them,
+   * it will return the second name if the first name
+   * does not contain at least one white space.
+   * 
+   * @param data string containing the name
+   * @returns extracted person name
+   */
   public extract(data: string): string {
     if (data.indexOf('-') != -1) {
       data = data.slice(0, (data.indexOf('-') - 1));

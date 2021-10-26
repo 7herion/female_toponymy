@@ -52,28 +52,41 @@ export class SlidingDivComponent implements OnInit {
   public isOpenFullScreen: boolean = false;
   private touchStartYCoord!: number;
 
-  public open(s: string) {
+
+  /**
+   * Sets the state of the sliding div to open.
+   * Opens a sliding div containing some information about the toponym.
+   * 
+   * @param s toponym
+   */
+  public open(s: string): void {
     this.isOpen = true;
     this.content.getData(s);
   }
 
-  public close() {
+  /**
+   * Sets the state of the sliding div to close.
+   */
+  public close(): void {
     this.isOpen = false;
     this.isOpenFullScreen = false;
   }
 
-  public openFullView() {
+  /**
+   * Sets the state of the sliding div from open to full.
+   */
+  public openFullView(): void {
     if (this.content.dataFound) {
       this.isOpen = false;
       this.isOpenFullScreen = true;
     }
   }
 
-  public touchStart(e: TouchEvent) {
+  public touchStart(e: TouchEvent): void {
     this.touchStartYCoord = e.changedTouches[0].clientY;
   }
 
-  public swipeEvent(e: TouchEvent) {
+  public swipeEvent(e: TouchEvent): void {
     if (e.changedTouches[0].clientY < this.touchStartYCoord) {
       this.openFullView();
     } else if (!this.isOpenFullScreen) {
@@ -81,7 +94,7 @@ export class SlidingDivComponent implements OnInit {
     }
   }
 
-  public checkState() {
+  public checkState(): string {
     if (this.isOpenFullScreen) {
       return 'full';
     } else if (this.isOpen) {

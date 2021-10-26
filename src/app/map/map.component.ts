@@ -39,18 +39,36 @@ export class MapComponent implements OnInit, AfterViewInit {
   private mapLayerControl = L.control.layers(undefined, undefined, { collapsed: false });
 
   private sliderData: Array<number> = [50, 0];
+
+  /**
+   * Checks if location is found.
+   */
   public geolocationActive(): boolean {
     return (this.sliderData[1] === -1) ? false : true;
   };
+
+  /**
+   * Updates local variable when changes occur on the slider.
+   * 
+   * @param e MatSliderChange
+   */
   public onSliderChange(e: MatSliderChange): void {
     this.sliderData[0] = e.value ? e.value : 0;
   }
 
-  public openSettings() {
+  /**
+   * Navigate to settings page. Closes any open dialog or sliding div.
+   */
+  public openSettings(): void {
     this.router.navigateByUrl('/settings');
     this.info.close();
   }
 
+  /**
+   * Closure of onEachFeature.
+   * 
+   * @param info InfoDivService that manages dialogs and sliding divs
+   */
   private onEachFeatureClosure(info: InfoDivService) {
     return function onEachFeature(featureData: any, featureLayer: L.Layer) {
       let toponym: string = "Toponym";
@@ -59,18 +77,15 @@ export class MapComponent implements OnInit, AfterViewInit {
       } else if (featureData.properties.hasOwnProperty('Testo')) {
         toponym = featureData.properties.Testo;
       }
-      // featureLayer.on('mouseover', (e: L.LeafletMouseEvent) => {
-      //   slidingDiv.open(toponym);
-      // });
-      // featureLayer.on('mouseout', (e: L.LeafletMouseEvent) => {
-      //   slidingDiv.close();
-      // });
       featureLayer.on('click', () => {
         info.openTab(toponym);
       });
     }
   }
 
+  /**
+   * Sets the data of mapLayerControl.
+   */
   private setLayerControl(): void {
     this.toponymyData.getFemaleToponyms().subscribe(d => {
       this.mapLayerControl.addOverlay(L.geoJSON(d,
@@ -113,6 +128,9 @@ export class MapComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Leaflet map initialization.
+   */
   private initMap(): void {
     var map = L.map('map', {
       layers: [
@@ -146,7 +164,13 @@ export class MapComponent implements OnInit, AfterViewInit {
     var currentPositionMarker!: L.Marker;
     var currentPositionCircle!: L.Circle;
 
-    function openNearestDialog(e: L.LocationEvent, d: number) {
+    /**
+     * Opens infoDiv in a range of d meters firing a click event.
+     * 
+     * @param e Leaflet LocationEvent
+     * @param d maximum distance in meters to open infoDiv
+     */
+    function openNearestDialog(e: L.LocationEvent, d: number): void {
       let markerDistances: Array<number> = [];
       let polygonDistances: Array<number> = [];
       let selectedLayer: boolean = false;

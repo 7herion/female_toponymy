@@ -10,7 +10,10 @@ export class MapSettingsComponent implements OnInit {
 
   public radioValue!: number;
 
-  saveData() {
+  /**
+   * Saves the value of the radio buttons in sharedData DataService.
+   */
+  saveData(): void {
     this.sharedData.setRadioValue(this.radioValue);
   }
 

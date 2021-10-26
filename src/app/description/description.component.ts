@@ -23,6 +23,12 @@ export class DescriptionComponent implements OnInit {
     private readonly wikiQuery: WikipediaQueryService,
   ) { }
 
+  /**
+   * Gets an image and some information from Wikipedia.
+   * If it fails, dataFound and imageFound are set to false.
+   * 
+   * @param data string containing the name to find
+   */
   public getData(data: string): void {
     this.name = this.toponymName.extract(data);
 

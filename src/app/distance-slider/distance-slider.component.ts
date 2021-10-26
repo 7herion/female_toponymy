@@ -11,16 +11,32 @@ export class DistanceSliderComponent implements OnInit {
 
   public value: number = 50;
 
-  public onInputChange(event: MatSliderChange) {
+  /**
+   * Emits an event when changes occur on the slider.
+   * 
+   * @param event MatSliderChange
+   */
+  public onInputChange(event: MatSliderChange): void {
     this.value = event.value ? event.value : 0;
     this.valueEmitter.emit(event);
   }
 
-  public formatLabel(value: number) {
+  /**
+   * Formats the value adding an 'm' at the end.
+   * 
+   * @param value value to format
+   * @returns formatted string
+   */
+  public formatLabel(value: number): string {
     return value + 'm';
   }
 
-  public sliderTooltip() {
+  /**
+   * Attaches a tooltip to the slider.
+   * 
+   * @returns tooltip string
+   */
+  public sliderTooltip(): string {
     if (this.value != 0) {
       return ("Distanza apertura automatica modale: " + this.value + " metri");
     } else {

@@ -13,11 +13,23 @@ export class InfoDivService {
   private slidingDiv!: SlidingDivComponent;
   public canBeClosed: boolean = false;
 
-  public setSlidingDiv(sd: SlidingDivComponent) {
+  /**
+   * Sets the slidingDivComponent to show the information.
+   * 
+   * @param sd SlidingDivComponent in the DOM
+   */
+  public setSlidingDiv(sd: SlidingDivComponent): void {
     this.slidingDiv = sd;
   }
 
-  public openTab(toponym: string) {
+  /**
+   * Opens the information div about the toponym.
+   * Based on the value of the sharedData DataService,
+   * the information will be displayed in a matDialog or in a slidingDiv.
+   * 
+   * @param toponym string containing the toponym
+   */
+  public openTab(toponym: string): void {
     this.canBeClosed = false;
     if (this.sharedData.getRadioValue() == 1) {
       this.dialogConfig.data = toponym;
@@ -32,7 +44,10 @@ export class InfoDivService {
     }, 250);
   }
 
-  public close() {
+  /**
+   * Closes all opened MatDialog or SlidingDiv
+   */
+  public close(): void {
     this.slidingDiv.close();
     this.matDialog.closeAll();
   }
